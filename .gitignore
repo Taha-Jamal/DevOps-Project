@@ -7,7 +7,6 @@ crash.log
 
 # SSH Keys (do NOT commit your private key!)
 *.pem
-*.pub
 *.key
 id_rsa
 
