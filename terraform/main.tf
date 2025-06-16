@@ -3,13 +3,13 @@ provider "aws" {
 }
 
 resource "aws_key_pair" "deployer" {
-  key_name   = var.key_name
+  key_name   = var.key_name           # Uses the updated var from terraform.tfvars
   public_key = file(var.public_key_path)
 }
 
 resource "aws_security_group" "allow_ssh_http" {
-  name        = "allow_ssh_http"
-  description = "Allow SSH and HTTP"
+  name        = "allow_ssh_http_jenkins"  # Renamed to avoid duplication
+  description = "Allow SSH, HTTP, Jenkins"
 
   ingress {
     description = "SSH"
@@ -26,14 +26,14 @@ resource "aws_security_group" "allow_ssh_http" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-# In your Terraform security group resource
-ingress {
-  from_port   = 8080
-  to_port     = 8080
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-  description = "Allow Jenkins"
-}
+
+  ingress {
+    description = "Allow Jenkins"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
   egress {
     from_port   = 0
