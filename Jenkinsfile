@@ -8,9 +8,17 @@ pipeline {
   stages {
     stage('Terraform: Init & Apply') {
       steps {
-        dir('terraform') {
-          sh 'terraform init'
-          sh 'terraform apply -auto-approve -var-file=terraform.tfvars'
+        withCredentials([
+          usernamePassword(
+            credentialsId: 'aws-creds', 
+            usernameVariable: 'AWS_ACCESS_KEY_ID', 
+            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+          )
+        ]) {
+          dir('terraform') {
+            sh 'terraform init'
+            sh 'terraform apply -auto-approve -var-file=terraform.tfvars'
+          }
         }
       }
     }
