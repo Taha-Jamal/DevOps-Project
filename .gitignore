@@ -1,0 +1,48 @@
+# Terraform
+*.tfstate
+*.tfstate.backup
+.terraform/
+crash.log
+terraform.tfvars
+*.tfplan
+
+# SSH Keys (do NOT commit your private key!)
+*.pem
+*.pub
+*.key
+id_rsa
+id_rsa.pub
+
+# Ansible
+*.retry
+inventory.ini
+inventory.sh.output
+
+# Jenkins
+jenkins_home/
+secrets/
+*.log
+
+# Docker
+*.pid
+*.sock
+docker-compose.override.yml
+
+# System & Editor Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
+.vscode/
+.idea/
+
+# Python (if using Ansible via pip)
+__pycache__/
+*.pyc
+.env
+.venv/
+
+# Workspace (Jenkins mounts)
+workspace/

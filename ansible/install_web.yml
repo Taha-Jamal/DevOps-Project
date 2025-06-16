@@ -1,0 +1,54 @@
+- name: Install Apache and Jenkins, and deploy static site
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+
+    - name: Install Apache2 web server
+      apt:
+        name: apache2
+        state: present
+
+    - name: Install Java (required for Jenkins)
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: Install dependencies for apt over HTTPS
+      apt:
+        name: apt-transport-https
+        state: present
+
+    - name: Add Jenkins repo GPG key
+      apt_key:
+        url: https://pkg.jenkins.io/debian/jenkins.io.key
+        state: present
+
+    - name: Add Jenkins apt repository
+      apt_repository:
+        repo: deb https://pkg.jenkins.io/debian-stable binary/
+        state: present
+
+    - name: Update apt cache after adding Jenkins repo
+      apt:
+        update_cache: yes
+
+    - name: Install Jenkins
+      apt:
+        name: jenkins
+        state: present
+
+    - name: Enable and start Jenkins service
+      systemd:
+        name: jenkins
+        enabled: yes
+        state: started
+
+    - name: Deploy static index.html to Apache web root
+      copy:
+        src: ../app/index.html
+        dest: /var/www/html/index.html
+        mode: '0644'
