@@ -3,7 +3,6 @@
 *.tfstate.backup
 .terraform/
 crash.log
-terraform.tfvars
 *.tfplan
 
 # SSH Keys (do NOT commit your private key!)
